@@ -1,11 +1,11 @@
 import { IndexType, Permission } from "node-appwrite";
 import { db } from "@/dbconfig/server/config";
 import env from "@/env";
-import { dbId, questionCollection } from "@/constants";
+import { db_name, questionCollection } from "@/constants";
 
 export default async function createQuestionCollection() {
   const collection = await db.createCollection(
-    dbId,
+    db_name,
     questionCollection,
     questionCollection,
     [
@@ -19,11 +19,17 @@ export default async function createQuestionCollection() {
   console.log("question collection created", collection);
 
   await Promise.all([
-    db.createStringAttribute(dbId, questionCollection, "title", 100, true),
-    db.createStringAttribute(dbId, questionCollection, "content", 10000, true),
-    db.createStringAttribute(dbId, questionCollection, "author", 50, true),
+    db.createStringAttribute(db_name, questionCollection, "title", 100, true),
     db.createStringAttribute(
-      dbId,
+      db_name,
+      questionCollection,
+      "content",
+      10000,
+      true
+    ),
+    db.createStringAttribute(db_name, questionCollection, "author", 50, true),
+    db.createStringAttribute(
+      db_name,
       questionCollection,
       "tags",
       10,
@@ -32,7 +38,7 @@ export default async function createQuestionCollection() {
       true
     ),
     db.createStringAttribute(
-      dbId,
+      db_name,
       questionCollection,
       "AttachmentId",
       50,
@@ -43,7 +49,7 @@ export default async function createQuestionCollection() {
 
   await Promise.all([
     db.createIndex(
-      dbId,
+      db_name,
       questionCollection,
       "title",
       IndexType.Fulltext,
