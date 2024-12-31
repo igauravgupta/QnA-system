@@ -7,10 +7,10 @@ import createStorage from "@/models/storage.setup";
 
 import { db } from "@/dbconfig/server/config";
 
-export default async function dbSetup() {
+export default async function getOrCreateDatabase() {
   try {
     await db.get(db_name);
-    console.log("Database connection");
+    console.log("Database connected");
   } catch (error) {
     try {
       await db.create(db_name, db_name);
@@ -23,7 +23,6 @@ export default async function dbSetup() {
         createVoteCollection(),
       ]);
       console.log("Collection created");
-      console.log("Database connected");
     } catch (error) {
       console.log("Error creating databases or collection", error);
     }
